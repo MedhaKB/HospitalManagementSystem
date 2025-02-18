@@ -39,7 +39,7 @@ class PatientServiceApplicationTest {
 	void testAddPatient() {
 		when(repository.save(patient)).thenReturn(patient);
 		ResponseEntity<String> response = patientService.addPatient(patient);
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals("Patient successfully added", response.getBody());
 	}
 

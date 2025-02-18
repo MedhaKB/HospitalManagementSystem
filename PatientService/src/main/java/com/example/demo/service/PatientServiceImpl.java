@@ -25,9 +25,14 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public ResponseEntity<String> addPatient(Patient patient) {
 		repository.save(patient);
-		return new ResponseEntity<>("Patient successfully added", HttpStatus.CREATED);
+		return new ResponseEntity<>("Patient successfully added", HttpStatus.OK);
 	}
 
+//	@Override
+//	public ResponseEntity<String> demo1() {
+//
+//		return new ResponseEntity<>("medhakb", HttpStatus.CREATED);
+//	}
 	// Updates patient details if the patient is found in the repository
 	@Override
 	public ResponseEntity<Patient> updatePatientDetails(int patientId, Patient updatedPatient) throws PatientNotFound {

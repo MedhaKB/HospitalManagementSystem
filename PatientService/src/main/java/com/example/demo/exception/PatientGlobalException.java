@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class PatientGlobalException {
@@ -40,6 +44,20 @@ public class PatientGlobalException {
 		return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
 
 	}
+	@ExceptionHandler(value = ConstraintViolationException.class)
+	public ResponseEntity<ExceptionResponse> handleConstraintViolationException(ConstraintViolationException ex) {
+	    String errors = ex.getConstraintViolations().stream()
+	            .map(ConstraintViolation::getMessage)
+	            .collect(Collectors.joining(", "));
+ 
+	    ExceptionResponse exceptionResponse = new ExceptionResponse();
+	    exceptionResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+	    exceptionResponse.setTime(LocalDateTime.now());
+	    exceptionResponse.setMessage(errors);
+ 
+	    return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+ 
 
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<ExceptionResponse> handleAccountIdException(Exception exception, WebRequest webRequest) {
