@@ -57,7 +57,7 @@ public class AppointmentController {
 	 * @return the booked appointment
 	 */
 	@PostMapping("/book/{doctorId}")
-	public ResponseEntity<Appointment> save(@RequestBody Appointment appointment, @PathVariable int doctorId) {
+	public ResponseEntity<Appointment> save(@RequestBody Appointment appointment, @PathVariable("doctorId") int doctorId) {
 		logger.info("Booking appointment for doctor ID: {}", doctorId);
 		return service.save(appointment, doctorId);
 	}
@@ -131,9 +131,9 @@ public class AppointmentController {
 	 * @param currentDate the date for which appointments are being fetched
 	 * @return a list of appointments
 	 */
-	@GetMapping("/getByDate/{doctorId}")
-	public ResponseEntity<List<PatientAppointmentDto>> getAppointmentsForDoctor(@PathVariable int doctorId,
-			@RequestParam LocalDate currentDate) {
+	@GetMapping("/getByDate/{doctorId}/{currentDate}")
+	public ResponseEntity<List<PatientAppointmentDto>> getAppointmentsForDoctor(@PathVariable("doctorId") int doctorId,
+			@PathVariable("currentDate") LocalDate currentDate) {
 		logger.info("Fetching appointments for doctor ID: {} on date: {}", doctorId, currentDate);
 		return service.getAppointmentsForDoctor(doctorId, currentDate);
 	}
