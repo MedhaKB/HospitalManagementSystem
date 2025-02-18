@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Doctor;
 import com.example.demo.exception.DoctorNotFound;
+import com.example.demo.exception.SpecializationNotFound;
 import com.example.demo.repository.DoctorRepository;
 
 import lombok.AllArgsConstructor;
@@ -42,6 +43,7 @@ public class DoctorServiceImpl implements DoctorService {
 			doctor.setEmailId(updatedDoctor.getEmailId());
 			doctor.setMobile_number(updatedDoctor.getMobile_number());
 			doctor.setName(updatedDoctor.getName());
+			doctor.setPassword(updatedDoctor.getPassword());
 			doctor.setSpecialization(updatedDoctor.getSpecialization());
 			repo.save(doctor);
 			return new ResponseEntity<>(doctor, HttpStatus.OK);
@@ -52,17 +54,24 @@ public class DoctorServiceImpl implements DoctorService {
 
 	// Find doctors by their specialization
 	@Override
-	public ResponseEntity<List<Doctor>> findBySpecialization(String specialization) {
+	public List<Doctor> findBySpecialization(String specialization) {
 		List<Doctor> doctors = repo.findBySpecialization(specialization);
-		return new ResponseEntity<>(doctors, HttpStatus.OK);
+		if (doctors.size() != 0) {
+			return doctors;
+		} else {
+			throw new SpecializationNotFound("Doctor of " + specialization + " is not present");
+		}
 	}
 
+	public List<Doctor> getAllDoctors(){
+		return repo.findAll();
+	}
+	
 	// Find a doctor by their ID
 	public ResponseEntity<Doctor> findById(int doctorId) throws DoctorNotFound {
 		Optional<Doctor> optional = repo.findById(doctorId);
 		if (optional.isPresent()) {
-			Doctor doctor = new Doctor();
-			doctor = optional.get();
+			Doctor doctor = optional.get();
 			return new ResponseEntity<>(doctor, HttpStatus.OK);
 		} else {
 			throw new DoctorNotFound("Doctor of " + doctorId + " is not present");

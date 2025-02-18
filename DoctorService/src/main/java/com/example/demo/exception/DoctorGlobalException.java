@@ -40,6 +40,19 @@ public class DoctorGlobalException {
 		return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
 
 	}
+	
+	@ExceptionHandler(value = SpecializationNotFound.class)
+	public ResponseEntity<ExceptionResponse> handleAdminRegistrationException(SpecializationNotFound exception,
+			WebRequest webRequest) {
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse();
+		exceptionResponse.setStatus(404);
+		exceptionResponse.setTime(LocalDateTime.now());
+		exceptionResponse.setMessage(exception.getMessage());
+
+		return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
+
+	}
 
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<ExceptionResponse> handleAccountIdException(Exception exception, WebRequest webRequest) {

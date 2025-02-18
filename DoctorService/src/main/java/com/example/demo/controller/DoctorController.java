@@ -47,7 +47,7 @@ public class DoctorController {
 	}
 
 	@GetMapping("/listOfDoctorsBySpec/{specialization}") // Endpoint to get doctors by specialization
-	public ResponseEntity<List<Doctor>> findBySpecialization(@PathVariable String specialization) {
+	public List<Doctor> findBySpecialization(@PathVariable String specialization) {
 		logger.info("Fetching doctors with specialization: {}", specialization); // Log message
 		return rser.findBySpecialization(specialization); // Call service layer to get doctors by specialization
 	}
@@ -56,5 +56,11 @@ public class DoctorController {
 	public ResponseEntity<Doctor> getDoctorById(@PathVariable int doctorId) {
 		logger.info("Fetching doctor details for ID: {}", doctorId); // Log message
 		return rser.findById(doctorId); // Call service layer to get doctor details by ID
+	}
+
+	@GetMapping("/listOfDoctors")
+	public List<Doctor> findAllDoctors() {
+		logger.info("Fetching all doctors");
+		return rser.getAllDoctors();
 	}
 }

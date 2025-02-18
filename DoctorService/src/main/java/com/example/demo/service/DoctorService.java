@@ -14,7 +14,9 @@ public interface DoctorService {
 
 	public ResponseEntity<Doctor> updateDoctor(int doctorId, Doctor doctor);
 
-	public ResponseEntity<List<Doctor>> findBySpecialization(String specialization);
+	public List<Doctor> findBySpecialization(String specialization);
 
 	public ResponseEntity<Doctor> findById(int doctorId);
+
+	public List<Doctor> getAllDoctors();
 }
