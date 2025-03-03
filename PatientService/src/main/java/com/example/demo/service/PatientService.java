@@ -14,5 +14,4 @@ public interface PatientService {
 	public ResponseEntity<String> deletePatient(int id);
 
 	public ResponseEntity<Patient> findByPatientId(int id);
-	//public ResponseEntity<String> demo1();
 }

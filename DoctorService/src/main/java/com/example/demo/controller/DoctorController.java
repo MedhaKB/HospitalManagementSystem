@@ -1,3 +1,4 @@
+
 package com.example.demo.controller;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.DTO.PatientDoctorAppointmentDto;
 import com.example.demo.entity.Doctor;
 import com.example.demo.service.DoctorServiceImpl;
 
@@ -62,5 +64,10 @@ public class DoctorController {
 	public List<Doctor> findAllDoctors() {
 		logger.info("Fetching all doctors");
 		return rser.getAllDoctors();
+	}
+	
+	@GetMapping("/getAppointmentById/{id}")
+	public ResponseEntity<PatientDoctorAppointmentDto>  getAppointmentById(@PathVariable int id) {
+		return rser.getAppointmentById(id);
 	}
 }

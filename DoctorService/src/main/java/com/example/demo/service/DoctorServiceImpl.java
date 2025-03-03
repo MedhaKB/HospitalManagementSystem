@@ -3,10 +3,14 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.demo.DTO.PatientDoctorAppointmentDto;
+import com.example.demo.clients.AppointmentClient;
 import com.example.demo.entity.Doctor;
 import com.example.demo.exception.DoctorNotFound;
 import com.example.demo.exception.SpecializationNotFound;
@@ -19,6 +23,9 @@ import lombok.AllArgsConstructor;
 public class DoctorServiceImpl implements DoctorService {
 
 	private final DoctorRepository repo;
+	
+	@Autowired
+	AppointmentClient client;
 
 	// Add a new doctor to the repository
 	@Override
@@ -66,6 +73,11 @@ public class DoctorServiceImpl implements DoctorService {
 	public List<Doctor> getAllDoctors(){
 		return repo.findAll();
 	}
+	
+	public ResponseEntity<PatientDoctorAppointmentDto> getAppointmentById(@PathVariable int id) {
+		return client.findById(id);
+	}
+	
 	
 	// Find a doctor by their ID
 	public ResponseEntity<Doctor> findById(int doctorId) throws DoctorNotFound {

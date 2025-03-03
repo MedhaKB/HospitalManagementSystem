@@ -94,10 +94,21 @@ public class AppointmentController {
 	 * @param id the ID of the appointment
 	 * @return a confirmation message
 	 */
-	@PutMapping("/accept/{id}")
-	public ResponseEntity<String> accept(@PathVariable int id) {
-		logger.info("Accepting appointment with ID: {}", id);
-		return service.accept(id);
+//	@PutMapping("/accept/{id}")
+//	public ResponseEntity<String> accept(@PathVariable int id) {
+//		logger.info("Accepting appointment with ID: {}", id);
+//		return service.accept(id);
+//	}
+	@PutMapping("/status/{id}")
+	public ResponseEntity<String>updateStatus(@PathVariable int id,@RequestParam String status){
+		logger.info("Updating status for appointment with ID:{}",id);
+		if("accept".equals(status)) {
+			return service.accept(id);
+		}else if("decline".equals(status)) {
+			return service.decline(id);
+		}else {
+			return ResponseEntity.badRequest().body("Invalid status");
+		}
 	}
 
 	/**
@@ -106,11 +117,11 @@ public class AppointmentController {
 	 * @param id the ID of the appointment
 	 * @return a confirmation message
 	 */
-	@PutMapping("/decline/{id}")
-	public ResponseEntity<String> decline(@PathVariable int id) {
-		logger.info("Declining appointment with ID: {}", id);
-		return service.decline(id);
-	}
+//	@PutMapping("/decline/{id}")
+//	public ResponseEntity<String> decline(@PathVariable int id) {
+//		logger.info("Declining appointment with ID: {}", id);
+//		return service.decline(id);
+//	}
 
 	/**
 	 * Fetch all appointments for a specific patient.
@@ -154,4 +165,6 @@ public class AppointmentController {
 	public ResponseEntity<AppointmentDto> getById(@PathVariable int id){
 		return ResponseEntity.ok(service.getById(id));
 	}
+	
+	
 }

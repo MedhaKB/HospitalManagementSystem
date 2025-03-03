@@ -38,10 +38,6 @@ public class PatientController {
 		return service.addPatient(patient);
 	}
 
-//	@GetMapping("/getDemo")
-//	public ResponseEntity<String> getDemo() {
-//		return service.demo1();
-	//}
 	// Handles PUT requests to /update/{id} for updating patient details
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Patient> updatePatientDetails(@PathVariable int id, @RequestBody Patient patient) {

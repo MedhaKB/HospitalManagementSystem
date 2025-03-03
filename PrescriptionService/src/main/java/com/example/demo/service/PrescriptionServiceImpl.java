@@ -66,6 +66,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 		List<Medicine> medicine = medRepo.findByPid(prescription.getPid());
 		prescription.setMedicine(medicine);
 		prescription.setDate(LocalDate.now());
+		prescription.setAid(aid);
 		return ResponseEntity.ok(presRepo.save(prescription));
 	}
 		else {
